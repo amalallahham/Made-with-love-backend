@@ -10,7 +10,7 @@ from .views import getListOrder
 
 urlpatterns = [
  path('<slug:cat>', getCategoryStore.as_view(), ),  
- path('addItem', addItem.as_view()),
+ path('addItem', addItem.as_view(),),
  path('delete/<int:pk>/', SnippetDetailSeller.as_view()),
  path('editProfile', SnippetDetailSeller.as_view()),
  path('profile/<int:pk>', SnippetDetailSeller.as_view()),

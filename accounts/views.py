@@ -96,7 +96,6 @@ class Login(APIView):
             
            
         except Buyer.DoesNotExist:
-            print('fgfg')
             userSeller = Seller.objects.get(email=email)
             password = self.request.data['password']
             s = 'gh@f$#$@&4hjhgjh'
@@ -107,7 +106,9 @@ class Login(APIView):
                 payload = {
                     'email': userSeller.email,
             }
+            tok = jwt.encode(payload, "SECRET_KEY")
             jwt_token = {'token': jwt.encode(payload, "SECRET_KEY"),"id_store":userSeller.store_id, "type":"seller"}
+           
             return Response(jwt_token)
               
 
