@@ -155,21 +155,22 @@ class sellerVisit(APIView):
                     print(tole['email'],'hijuhuyu')
                     email = tole['email']
                     print(pk)
-                    obj1 = Seller.objects.filter(pk=pk)
-                    json_serializer = json.Serializer()
-                    json_serialized1 = json_serializer.serialize(obj1)
-                    # print(json_serialized )
-                    myData = []
-                    print(pk,">>>>11111111111111")
-                    obj = Item.objects.filter(store_id=pk)
-                    json_serializer = json.Serializer()
-                    json_serialized = json_serializer.serialize(obj)
-                    # print(json_serialized )
-                    myData.append(json_serialized1)
-                    myData.append(json_serialized)
-                    print("mydataaa",myData,"dataaend")
-                    # dat =   JSON.dumps(myData)
-                    return Response(json_serialized1)    
+                    if Seller.objects.get( email = email):
+                        obj1 = Seller.objects.filter(pk=pk)
+                        json_serializer = json.Serializer()
+                        json_serialized1 = json_serializer.serialize(obj1)
+                        # print(json_serialized )
+                        myData = []
+                        print(pk,">>>>11111111111111")
+                        obj = Item.objects.filter(store_id=pk)
+                        json_serializer = json.Serializer()
+                        json_serialized = json_serializer.serialize(obj)
+                        # print(json_serialized )
+                        myData.append(json_serialized1)
+                        myData.append(json_serialized)
+                        print("mydataaa",myData,"dataaend")
+                        # dat =   JSON.dumps(myData)
+                        return Response(json_serialized1)    
                 except jwt.DecodeError:
                     return HttpResponse({"Unauthorized":"Unauthorized"} ,status="401")     
 class SnippetDetailSeller(APIView):
@@ -188,21 +189,23 @@ class SnippetDetailSeller(APIView):
                     print(tole['email'],'hijuhuyu')
                     email = tole['email']
                     print(pk)
-                    obj1 = Seller.objects.filter(pk=pk)
-                    json_serializer = json.Serializer()
-                    json_serialized1 = json_serializer.serialize(obj1)
-                    # print(json_serialized )
-                    myData = []
-                    print(pk,">>>>11111111111111")
-                    obj = Item.objects.filter(store_id=pk)
-                    json_serializer = json.Serializer()
-                    json_serialized = json_serializer.serialize(obj)
-                    # print(json_serialized )
-                    myData.append(json_serialized1)
-                    myData.append(json_serialized)
-                    print("mydataaa",myData,"dataaend")
-                    # dat =   JSON.dumps(myData)
-                    return Response(json_serialized1)
+                    if Seller.objects.get( email = email): 
+
+                        obj1 = Seller.objects.filter(pk=pk)
+                        json_serializer = json.Serializer()
+                        json_serialized1 = json_serializer.serialize(obj1)
+                        # print(json_serialized)
+                        myData = []
+                        print(pk,">>>>11111111111111")
+                        obj = Item.objects.filter(store_id=pk)
+                        json_serializer = json.Serializer()
+                        json_serialized = json_serializer.serialize(obj)
+                        # print(json_serialized )
+                        myData.append(json_serialized1)
+                        myData.append(json_serialized)
+                        print("mydataaa",myData,"dataaend")
+                        # dat =   JSON.dumps(myData)
+                        return Response(json_serialized1)
                 except jwt.DecodeError:
                     return HttpResponse({"Unauthorized":"Unauthorized"} ,status="401")
 
@@ -247,8 +250,27 @@ class getListOrder (APIView):
                 except jwt.DecodeError:
                     return HttpResponse({"Unauthorized":"Unauthorized"} ,status="401")
 
-                    
-                   
+class editItem (APIView):
+    permission_classes = (permissions.AllowAny,)
+    def post(self, request, pk):
+        data = self.request.data 
+        if not data:
+            return HttpResponse({"Error":"please enter your information"} ,status="401")
+        elif data:
+            try:
+                gender = data['gender'] 
+                size = data['size'] 
+                productName = data['product'] 
+                description = data['description'] 
+                price = data['price']
+                image = data['url'] 
+                material = data['material'] 
+                types = data['type'] 
+
+                Item.objects.filter(item_id= pk).update(productname = productName, description=description, price=price, gender=gender,types=types, size=size, image=image, material=material)    
+                return HttpResponse({"success":"updated"} ,status="200")
+            except Item.DoesNotExist:
+                return HttpResponse({"Error":"ERROR"} ,status="401")
               
         
 

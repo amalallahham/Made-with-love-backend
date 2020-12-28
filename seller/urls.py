@@ -7,6 +7,7 @@ from .views import getItems
 from .views import getItemsVisit
 from .views import sellerVisit
 from .views import getListOrder
+from .views import editItem
 
 urlpatterns = [
  path('<slug:cat>', getCategoryStore.as_view(), ),  
@@ -18,6 +19,7 @@ urlpatterns = [
  path('visit/items/<int:pk>', getItemsVisit.as_view()),
  path('visit/<int:pk>', sellerVisit.as_view()),
  path('addItem', addItem .as_view(), ),
+ path('editProfile/<int:pk>', editItem.as_view(), ),
 
  path('order/list/<int:pk>', getListOrder.as_view(), )
 

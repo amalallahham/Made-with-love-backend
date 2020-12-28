@@ -31,7 +31,6 @@ from .models import Category
 
 class signupSeller(APIView):
     permission_classes = (permissions.AllowAny,)
-
     def post(self, request, format=None):
         data = self.request.data  
         print(data)
@@ -45,16 +44,12 @@ class signupSeller(APIView):
         image = data ['url']
         #check if email exsists
         obj = Seller.objects.filter(email = email)
-        tr1 = Seller.objects.filter(email = email)
-
-        if obj or tr1:
+        if obj :
             return Response ({'error':"Email already exist"})
         else:
-            user = Seller.objects.create_user(email = email, store_name = store_name , password = password, description=description, deliverytime=delivery_time, image=image, location=location, category=category)
+            user = Seller.objects.create_user(email = email, store_name = store_name , password = password, description=description, delivery_time=delivery_time, image=image, location=location, category=category)
             # user.save()
             return Response ({'success':'Seller registered'})
-
-
 class signupBuyer(APIView):
     permission_classes = (permissions.AllowAny,)
 
