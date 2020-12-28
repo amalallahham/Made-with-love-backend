@@ -54,7 +54,7 @@ class Seller(AbstractBaseUser, models.Model):
     objects =  UserAccountManager()
     USERNAME_FIELD = 'email'
     class Meta:
-        # managed = True
+        # managed = Truee
         db_table = 'seller'
 
 class BuyerAccountManager(BaseUserManager):
